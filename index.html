@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For My Favorite Person 💜</title>
+    <title>Bonk Time 💜</title>
     <style>
         :root {
-            --bg-color: #f3e5f5; /* Light Purple / Lavender */
+            --bg-color: #f3e5f5; 
             --primary-purple: #7b1fa2;
             --bonk-red: #ff1744;
         }
@@ -26,38 +26,44 @@
 
         h1 {
             color: var(--primary-purple);
-            font-size: 2rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px white;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            padding: 0 10px;
+        }
+
+        .emoji-header {
+            font-size: 3rem;
+            margin-bottom: 20px;
         }
 
         .stage {
             position: relative;
-            width: 320px;
-            height: 400px;
+            width: 100%;
+            max-width: 400px;
+            height: 350px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        /* Varun's Photo */
+        /* Varun's Photo - Scaled Down */
         #target-face {
-            width: 200px;
-            height: 200px;
+            width: 140px; /* Reduced from 200px */
+            height: 140px;
             border-radius: 50%;
             object-fit: cover;
-            border: 6px solid white;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            transition: transform 0.1s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+            border: 5px solid white;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            transition: transform 0.1s;
             z-index: 1;
         }
 
-        /* Her Photo/Bat */
+        /* Her Avatar - Scaled Up for Mobile */
         #gf-bat {
             position: absolute;
-            width: 180px;
-            top: 20px;
-            right: -40px;
+            width: 250px; /* Increased for that 'boss' energy */
+            top: -10px;
+            right: 0px;
             z-index: 10;
             pointer-events: none;
             transform-origin: bottom center;
@@ -67,45 +73,43 @@
         /* BONK Text Effect */
         #bonk-effect {
             position: absolute;
-            top: 40px;
-            font-size: 5rem;
+            top: 20px;
+            font-size: 4.5rem;
             font-weight: 900;
-            color: yellow;
-            -webkit-text-stroke: 3px var(--bonk-red);
+            color: #ffff00;
+            -webkit-text-stroke: 2px var(--bonk-red);
             text-shadow: 4px 4px 0px var(--bonk-red);
             opacity: 0;
-            transform: scale(0) rotate(-20deg);
             z-index: 20;
             pointer-events: none;
         }
 
-        /* Animations */
-        .bonk-animate {
-            animation: pop 0.3s ease-out forwards;
-        }
-
         @keyframes pop {
             0% { transform: scale(0) rotate(-20deg); opacity: 0; }
-            50% { transform: scale(1.5) rotate(10deg); opacity: 1; }
-            100% { transform: scale(1.2) rotate(-5deg); opacity: 0; }
+            50% { transform: scale(1.4) rotate(10deg); opacity: 1; }
+            100% { transform: scale(1.1) rotate(-5deg); opacity: 0; }
+        }
+
+        .bonk-animate {
+            animation: pop 0.4s ease-out forwards;
         }
 
         /* UI */
         .btn-container {
-            margin-top: 40px;
+            margin-top: 30px;
         }
 
         #bonk-btn {
-            background-color: var(--primary-purple);
+            background-color: #6a1b9a;
             color: white;
             border: none;
-            padding: 15px 40px;
-            font-size: 1.5rem;
+            padding: 18px 50px;
+            font-size: 1.4rem;
             font-weight: bold;
-            border-radius: 50px;
+            border-radius: 40px;
             cursor: pointer;
             box-shadow: 0 6px #4a148c;
-            transition: all 0.1s;
+            text-transform: uppercase;
         }
 
         #bonk-btn:active {
@@ -115,7 +119,8 @@
 
         .sorry-text {
             margin-top: 20px;
-            color: #6a1b9a;
+            color: #7b1fa2;
+            font-size: 0.9rem;
             font-style: italic;
             max-width: 80%;
         }
@@ -123,12 +128,13 @@
 </head>
 <body>
 
-    <h1>I'm sorry! I was being stupid. 🥺</h1>
+    <h1>I'm sorry! I was being stupid.</h1>
+    <div class="emoji-header">🥺</div>
     
     <div class="stage">
         <div id="bonk-effect">BONK!</div>
         <img id="target-face" src="me.png" alt="Varun">
-        <img id="gf-bat" src="gf-hold.png" alt="The Bat">
+        <img id="gf-bat" src="gf-hold.png" alt="Her">
     </div>
 
     <div class="btn-container">
@@ -144,29 +150,32 @@
         const bonkText = document.getElementById('bonk-effect');
 
         function executeBonk() {
-            // 1. Play Sound
+            // 1. Sound
             audio.currentTime = 0;
             audio.play();
 
-            // 2. Visual Hit
+            // 2. Switch to "Hit" visuals
             batImg.src = 'gf-hit.png';
-            batImg.style.transform = 'translate(-100px, 80px) rotate(-45deg)';
+            myFace.src = 'me-cry.png'; // Swap to cry face
             
-            // 3. Head Bend/Squish
-            myFace.style.transform = 'rotate(20deg) scaleY(0.8) translateY(30px)';
+            // 3. Transform animations
+            batImg.style.transform = 'translate(-120px, 100px) rotate(-50deg)';
+            myFace.style.transform = 'rotate(25deg) scaleY(0.7) translateY(40px)';
 
-            // 4. Trigger Text Effect
+            // 4. Text Effect
             bonkText.classList.remove('bonk-animate');
-            void bonkText.offsetWidth; // Trigger reflow to restart animation
+            void bonkText.offsetWidth; 
             bonkText.classList.add('bonk-animate');
 
-            // 5. Reset
+            // 5. Reset after hit
             setTimeout(() => {
                 batImg.src = 'gf-hold.png';
+                myFace.src = 'me.png'; // Back to normal face
                 batImg.style.transform = 'translate(0, 0) rotate(0deg)';
                 myFace.style.transform = 'rotate(0deg) scaleY(1) translateY(0)';
-            }, 250);
+            }, 350);
         }
     </script>
 </body>
 </html>
+
