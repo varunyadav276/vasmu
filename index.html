@@ -1,57 +1,171 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Question</title>
+    <title>For My Favorite Person 💜</title>
     <style>
+        :root {
+            --bg-color: #f3e5f5; /* Light Purple / Lavender */
+            --primary-purple: #7b1fa2;
+            --bonk-red: #ff1744;
+        }
+
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            background-color: #ffe4e1;
-            font-family: 'Arial', sans-serif;
+            background-color: var(--bg-color);
+            font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+            overflow: hidden;
             text-align: center;
         }
-        h1 { color: #d63384; }
-        .buttons { margin-top: 20px; }
-        button {
-            padding: 15px 30px;
-            font-size: 18px;
-            cursor: pointer;
-            border-radius: 10px;
-            border: none;
-            transition: 0.3s;
+
+        h1 {
+            color: var(--primary-purple);
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px white;
         }
-        #yesBtn { background-color: #ff69b4; color: white; margin-right: 10px; }
-        #noBtn { background-color: #ffffff; color: #d63384; position: absolute; }
+
+        .stage {
+            position: relative;
+            width: 320px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Varun's Photo */
+        #target-face {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 6px solid white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.1s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+            z-index: 1;
+        }
+
+        /* Her Photo/Bat */
+        #gf-bat {
+            position: absolute;
+            width: 180px;
+            top: 20px;
+            right: -40px;
+            z-index: 10;
+            pointer-events: none;
+            transform-origin: bottom center;
+            transition: transform 0.05s ease;
+        }
+
+        /* BONK Text Effect */
+        #bonk-effect {
+            position: absolute;
+            top: 40px;
+            font-size: 5rem;
+            font-weight: 900;
+            color: yellow;
+            -webkit-text-stroke: 3px var(--bonk-red);
+            text-shadow: 4px 4px 0px var(--bonk-red);
+            opacity: 0;
+            transform: scale(0) rotate(-20deg);
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        /* Animations */
+        .bonk-animate {
+            animation: pop 0.3s ease-out forwards;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+            50% { transform: scale(1.5) rotate(10deg); opacity: 1; }
+            100% { transform: scale(1.2) rotate(-5deg); opacity: 0; }
+        }
+
+        /* UI */
+        .btn-container {
+            margin-top: 40px;
+        }
+
+        #bonk-btn {
+            background-color: var(--primary-purple);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px #4a148c;
+            transition: all 0.1s;
+        }
+
+        #bonk-btn:active {
+            box-shadow: 0 2px #4a148c;
+            transform: translateY(4px);
+        }
+
+        .sorry-text {
+            margin-top: 20px;
+            color: #6a1b9a;
+            font-style: italic;
+            max-width: 80%;
+        }
     </style>
 </head>
 <body>
 
-    <div id="container">
-        <h1>Will you go on a movie date with me? ❤️</h1>
-        <div class="buttons">
-            <button id="yesBtn" onclick="celebrate()">Yes!</button>
-            <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No</button>
-        </div>
+    <h1>I'm sorry! I was being stupid. 🥺</h1>
+    
+    <div class="stage">
+        <div id="bonk-effect">BONK!</div>
+        <img id="target-face" src="me.png" alt="Varun">
+        <img id="gf-bat" src="gf-hold.png" alt="The Bat">
     </div>
 
-    <script>
-        function moveButton() {
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 50);
-            const noBtn = document.getElementById('noBtn');
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
-        }
+    <div class="btn-container">
+        <button id="bonk-btn" onclick="executeBonk()">PRESS TO BONK</button>
+    </div>
 
-        function celebrate() {
-            document.getElementById('container').innerHTML = "<h1>Yayayayyayayayayyayayaya(bauni😋😍)</h1>";
+    <p class="sorry-text">Click the button to get your revenge. I'll take it like a champ.</p>
+
+    <script>
+        const audio = new Audio('bonk.mp3');
+        const batImg = document.getElementById('gf-bat');
+        const myFace = document.getElementById('target-face');
+        const bonkText = document.getElementById('bonk-effect');
+
+        function executeBonk() {
+            // 1. Play Sound
+            audio.currentTime = 0;
+            audio.play();
+
+            // 2. Visual Hit
+            batImg.src = 'gf-hit.png';
+            batImg.style.transform = 'translate(-100px, 80px) rotate(-45deg)';
+            
+            // 3. Head Bend/Squish
+            myFace.style.transform = 'rotate(20deg) scaleY(0.8) translateY(30px)';
+
+            // 4. Trigger Text Effect
+            bonkText.classList.remove('bonk-animate');
+            void bonkText.offsetWidth; // Trigger reflow to restart animation
+            bonkText.classList.add('bonk-animate');
+
+            // 5. Reset
+            setTimeout(() => {
+                batImg.src = 'gf-hold.png';
+                batImg.style.transform = 'translate(0, 0) rotate(0deg)';
+                myFace.style.transform = 'rotate(0deg) scaleY(1) translateY(0)';
+            }, 250);
         }
     </script>
 </body>
